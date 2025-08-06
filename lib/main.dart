@@ -5,6 +5,7 @@ import 'package:qr_scaaner/route/app_page.dart';
 import 'package:qr_scaaner/route/app_route.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     DevicePreview(
       enabled: !bool.fromEnvironment('dart.vm.product'), // disabled in release
