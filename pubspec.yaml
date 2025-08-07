@@ -19,6 +19,7 @@ dependencies:
   device_preview:
   image_picker: ^1.1.2
   path: ^1.9.1
+  file_picker: ^10.2.2
 
 dev_dependencies:
   flutter_test:

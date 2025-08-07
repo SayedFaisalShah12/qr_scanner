@@ -21,7 +21,7 @@ class QRScannerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'QR Scanner App',
+      title: 'QR Scanner',
       debugShowCheckedModeBanner: false,
       useInheritedMediaQuery: true, // 👈 required for DevicePreview
       locale: DevicePreview.locale(context), // 👈 required for locale testing
