@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../controllers/image_picker_controller.dart';
+import '../controllers/image_picker_controller.dart';
 
 class ImagePickerScreen extends StatelessWidget {
   final ImagePickerController controller = Get.put(ImagePickerController());

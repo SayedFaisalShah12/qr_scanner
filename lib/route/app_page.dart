@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import '../binding/qr_scanner_binding.dart';
 import '../views/qr_scanner_screen.dart';
-import '../views/widget/image_picker_screen.dart';
+import '../views/image_picker_screen.dart';
 import 'app_route.dart';
 
 class AppPages {

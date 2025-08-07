@@ -1,121 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import '../controllers/qr_scanner_controller.dart';
 
-class QrScannerScreen extends StatefulWidget {
-  const QrScannerScreen({super.key});
-
-  @override
-  State<QrScannerScreen> createState() => _QrScannerScreenState();
-}
-
-class _QrScannerScreenState extends State<QrScannerScreen> {
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController? qrController;
+class QrScannerView extends GetView<QrScannerController> {
+  const QrScannerView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<QrScannerController>();
-
-    return Scaffold(  
+    return Scaffold(
       appBar: AppBar(
-        title: const Text("QR Code Scanner"),
-        backgroundColor: Colors.deepPurple,
-        centerTitle: true,
+        title: const Text('QR Scanner'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 5,
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: (ctrl) {
-                qrController = ctrl;
-                ctrl.scannedDataStream.listen((scanData) {
-                  qrController?.pauseCamera(); // optional
-                  controller.processScan(scanData.code ?? '');
-                });
-              },
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(24),
-                  topRight: Radius.circular(24),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                  ),
-                ],
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton.icon(
+                onPressed: controller.pickFile,
+                icon: const Icon(Icons.upload_file),
+                label: const Text('Upload File'),
               ),
-              child: Obx(() {
-                if (controller.isLoading.value) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (controller.scannedText.isNotEmpty) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Scanned Data:",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                      ),
-                      const SizedBox(height: 10),
-                      SelectableText(
-                        controller.scannedText.value,
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton.icon(
-                              onPressed: () {
-                                qrController?.resumeCamera();
-                                controller.clear();
-                              },
-                              icon: const Icon(Icons.qr_code_scanner),
-                              label: const Text("Scan Again"),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.deepPurple,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
+                onPressed: controller.openCamera,
+                icon: const Icon(Icons.camera_alt),
+                label: const Text('Camera'),
+              ),
+              const SizedBox(height: 40),
+              Obx(() {
+                if (controller.imagePath.value.isNotEmpty) {
+                  return Image.file(
+                    controller.getImageFile(),
+                    height: 200,
+                    fit: BoxFit.cover,
                   );
                 } else {
-                  return const Center(
-                    child: Text(
-                      "Point camera at a QR code",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  );
+                  return const Text('No file selected');
                 }
               }),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    qrController?.dispose();
-    super.dispose();
   }
 }

@@ -1,20 +1,29 @@
+import 'dart:io';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
 
 class QrScannerController extends GetxController {
-  var scannedText = ''.obs;
-  var isLoading = false.obs;
+  final imagePath = ''.obs;
+  final picker = ImagePicker();
 
-  void processScan(String qrContent) {
-    isLoading.value = true;
-
-    // Simulate processing
-    Future.delayed(Duration(seconds: 1), () {
-      scannedText.value = qrContent;
-      isLoading.value = false;
-    });
+  void openCamera() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      imagePath.value = pickedFile.path;
+    }
   }
 
-  void clear() {
-    scannedText.value = '';
+  void pickFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+    if (result != null && result.files.single.path != null) {
+      imagePath.value = result.files.single.path!;
+    }
+  }
+
+  File getImageFile() {
+    return File(imagePath.value);
   }
 }
