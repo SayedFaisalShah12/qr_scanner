@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:device_preview/device_preview.dart';
@@ -8,7 +9,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     DevicePreview(
-      enabled: !bool.fromEnvironment('dart.vm.product'), // disabled in release
+      enabled: kDebugMode,
       builder: (context) => const QRScannerApp(),
     ),
   );

@@ -18,7 +18,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
   Widget build(BuildContext context) {
     final controller = Get.find<QrScannerController>();
 
-    return Scaffold(
+    return Scaffold(  
       appBar: AppBar(
         title: const Text("QR Code Scanner"),
         backgroundColor: Colors.deepPurple,
