@@ -1,3 +1,5 @@
+import 'dart:io' show File;
+import 'package:flutter/foundation.dart' show kIsWeb, Uint8List;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/image_picker_controller.dart';
@@ -14,10 +16,27 @@ class ImagePickerScreen extends StatelessWidget {
         child: Column(
           children: [
             Obx(() {
-              final file = controller.imageFile.value;
-              return file != null
-                  ? Image.file(file, height: 200)
-                  : const Text('No image selected');
+              final pickedFile = controller.imageFile.value;
+
+              if (pickedFile == null) {
+                return const Text('No image selected');
+              }
+
+              if (kIsWeb) {
+                // For Web, we expect Uint8List
+                return Image.memory(
+                  pickedFile as Uint8List,
+                  height: 200,
+                  fit: BoxFit.cover,
+                );
+              } else {
+                // For Mobile/desktop
+                return Image.file(
+                  pickedFile as File,
+                  height: 200,
+                  fit: BoxFit.cover,
+                );
+              }
             }),
             const SizedBox(height: 20),
             ElevatedButton.icon(
