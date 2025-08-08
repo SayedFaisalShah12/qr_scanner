@@ -14,33 +14,35 @@ class QrScannerView extends GetView<QrScannerController> {
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton.icon(
-                onPressed: controller.pickFile,
-                icon: const Icon(Icons.upload_file),
-                label: const Text('Upload File'),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton.icon(
-                onPressed: controller.openCamera,
-                icon: const Icon(Icons.camera_alt),
-                label: const Text('Camera'),
-              ),
-              const SizedBox(height: 40),
-              Obx(() {
-                if (controller.imagePath.value.isNotEmpty) {
-                  return Image.file(
-                    controller.getImageFile(),
-                    height: 200,
-                    fit: BoxFit.cover,
-                  );
-                } else {
-                  return const Text('No file selected');
-                }
-              }),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: controller.pickFile,
+                  icon: const Icon(Icons.upload_file),
+                  label: const Text('Upload File'),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton.icon(
+                  onPressed: controller.openCamera,
+                  icon: const Icon(Icons.camera_alt),
+                  label: const Text('Camera'),
+                ),
+                const SizedBox(height: 40),
+                Obx(() {
+                  if (controller.imagePath.value.isNotEmpty) {
+                    return Image.file(
+                      controller.getImageFile(),
+                      height: 200,
+                      fit: BoxFit.cover,
+                    );
+                  } else {
+                    return const Text('No file selected');
+                  }
+                }),
+              ],
+            ),
           ),
         ),
       ),
